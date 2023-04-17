@@ -22,6 +22,6 @@
             }
         }
     }
-    #$objeto = new Conexion();
-    #var_dump($objeto->conectar());
+    $objeto = new Conexion();
+    var_dump($objeto->conectar());
 ?>

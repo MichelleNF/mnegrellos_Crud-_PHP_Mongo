@@ -1,8 +1,14 @@
-<?php
+<?php session_start();
     require_once "./clases/Conexion.php";
     require_once "./clases/Crud.php";
     $crud = new Crud();
     $datos = $crud->mostrarDatos();
+
+    $mensaje = '';
+    if (isset($_SESSION['mensaje_crud'])) {
+        $mensaje = $crud->mensajesCrud($_SESSION['mensaje_crud']);
+        unset($_SESSION['mensaje_crud']);
+    }
 ?>
 
 <?php include "./header.php"; ?>
@@ -35,14 +41,16 @@
                                     <td> <?php echo $item->nombre; ?> </td>
                                     <td> <?php echo $item->fecha_nacimiento; ?> </td>
                                     <td class="text-center">
-                                        <form action="" method="post">
+                                        <form action="./actualizar.php" method="POST">
+                                        <input type="text" hidden value="<?php echo $item->_id ?>" name="id">
                                             <button class="btn btn-warning">
                                             <i class="fa-solid fa-user-pen"></i> 
                                             </button>
                                         </form>
                                     </td>
                                     <td class="text-center">
-                                        <form action="">
+                                        <form action="./eliminar.php" method="POST">
+                                            <input type="text" hidden value="<?php echo $item->_id ?>" name="id">
                                             <button class="btn btn-danger">
                                             <i class="fa-solid fa-user-xmark"></i> 
                                             </button>
@@ -61,3 +69,8 @@
         </div>
     </div>
 <?php include "./scripts.php"; ?>
+
+<script>
+    let mensaje = <?php echo $mensaje ?>;
+    console.log(mensaje);
+</script>
